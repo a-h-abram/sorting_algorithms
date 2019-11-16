@@ -1,0 +1,339 @@
+{% extends './index.html.twig' %}
+
+{% block content %}
+
+<section class="section-welcome">
+
+    <!--<div class="alert alert-success alert-dismissible fade" role="alert" style="text-align: center;">
+        <strong>Tri réalisé ;)</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>-->
+
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute;">
+        <div class="toast-header">
+            <strong class="mr-auto" id="toast-title">Test</strong>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body" id="toast-content">
+            Test Message
+        </div>
+    </div>
+
+    <div class="display-arrays">
+        <canvas id="canvas-graph" width="800" height="250"
+                style="width: 95%;height: 95%;margin-top: 1em;background-color: #454545">
+            <!-- Graph inside displayed in js -->
+        </canvas>
+    </div>
+
+    <!--<div class="fnd-info-container">
+        <a type="button" id="fnd-info-btn" data-toggle="modal" data-target="#fnd-modal-info"
+           data-aos="fade-up" data-aos-duration="700" data-aos-delay="250">
+            <i class="fa fa-info-circle sa-choose-algo"></i>
+        </a>
+    </div>-->
+
+    <div class="commands-parameters">
+        <div class="container">
+            <div class="commands-single-line">
+                <div class="input-group mb-1 col-md-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Nombre de valeur</span>
+                    </div>
+                    <input type="number" class="form-control" id="commands-max-nbr"
+                           aria-describedby="commands-max-nbr" onchange="changeNbrValues()">
+                </div>
+                <!--<div class="input-group mb-2 col-md-5">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Valeur maximale</span>
+                    </div>
+                    <input type="number" class="form-control" id="commands-val-max"
+                           aria-describedby="commands-val-max" onchange="changeMaxValue()">
+                </div>-->
+            </div>
+
+            <button class="btn btn-outline-secondary fnd-search-search-2" data-aos="fade-up" data-aos-duration="700"
+                    type="submit" onclick="launchSort()" id="launch-sort">
+                Lancer le tri
+            </button>
+            <button class="btn btn-outline-secondary fnd-search-search-2" data-aos="fade-up" data-aos-duration="700"
+                    type="submit" onclick="generateNewArrayAndDisplay()">
+                Générer un nouveau tableau
+            </button>
+        </div>
+    </div>
+
+</section>
+<!--<section class="section-work">
+    <div>
+
+    </div>
+</section>-->
+<section class="section-summary">
+    <div style="width:47%;height:100%;">
+        <div class="summary-img-container">
+            <div data-aos="fade-right" data-aos-duration="800" class="summary-icon">
+                <!--<label class="summary-icon-content">47 %</label>-->
+                <img src="../../public/imgs/abram.jpg" style="width: 100%;"/>
+            </div>
+        </div>
+    </div>
+    <div style="width:47%;height:100%;">
+        <div class="summary-description" data-aos="fade-left" data-aos-duration="800">
+            <div class="description-container">
+                <h2 style="font-size: 5em;font-weight: 200;margin-bottom: 1em;color: #fbf8fc;">Pourquoi ce projet ?</h2>
+
+                <br>
+
+                <p style="font-size: 1.4em;">
+                    Ce projet a uniquement pour but d'être utilisé pour démontrer mon "expérience" en algorithmie de
+                    tri.
+                    J'ai réalisé ce projet pour m'entraîner mais aussi pour m'amuser.
+                    <br><br>
+                    L'objectif était de découvrir des nouvelles méthodes de tri plus ou moins optimisées et d'y apporter
+                    un interface graphique agréable où je pouvais pratiquer un peu de CSS.
+                </p>
+
+                <br>
+
+                <strong style="font-size: 1.6em;">ABRAM Anas Habib</strong>
+
+                <br>
+
+                <button style="margin-top: 2.5em;" class="btn btn-outline-secondary fnd-search-search-2"
+                        data-aos="fade-up" data-aos-duration="700" type="button" data-toggle="modal"
+                        data-target="#modal-info">
+                    Nota Bene
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section-footer" data-aos="fade-up">
+    <div class="fnd-container">
+        <div class="row">
+            <div class="col" style="text-align: center;">
+                <span>ABRAM Sorting Algorithms<br>Tous droits réservés</span>
+            </div>
+            <div class="col">
+                <span>Developpé par <strong>ABRAM Anas Habib</strong></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="display: flex;align-items: center;justify-content: center;">
+                <h3 class="modal-title">Informations</h3>
+                <button style="position: absolute;top: 1em;right: 1em;padding: 0;" type="button" class="close"
+                        data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <h5 style="font-weight: bold;">
+                    Ne confondez pas la vitesse de traitement des algorithmes et le temps d'affichage
+                </h5>
+
+                <br>
+
+                <p>
+                    <strong>
+                        L'affichage des algorithmes peuvent prendre plus de temps qu'il ne le sont en réalité
+                    </strong>
+                    <br>
+                    <span>
+                        Le graphique a été codé "from scratch" en utilisant seulement les canvas d'HTML5 et a été conçu
+                        en une trentaine de minute. L'affichage des données et l'actualisation de ces derniers sont
+                        donc loin d'être performants, ce qui influe grandement sur la "vitesse d'affichage du
+                        traitement des algorithmes". Fondez vous sur les pop-up affiché à chaque choix d'algorithme
+                        qui indiquera leur complexité (dans le pire des cas).
+                    </span>
+                </p>
+            </div>
+            <div class="modal-footer" style="display: flex;align-items: center;justify-content: center;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="font-weight: bold;">
+                    C'est OK <i style="margin-left: .5em;" class="fa fa-thumbs-up"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .section-welcome {
+        width: 100%;
+        height: 100%;
+        background: url("../../public/imgs/background/welcome_lights.jpg");
+        background-size: cover;
+    }
+
+    .display-arrays {
+        width: 100%;
+        height: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .commands-parameters {
+        margin-top: 1.5em;
+        text-align: center;
+    }
+
+    .commands-single-line {
+        /*display: ruby;*/
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: .5em;
+    }
+
+    .fnd-search {
+        height: 3em;
+    }
+
+    .fnd-search-group {
+        padding: 10%;
+    }
+
+    .fnd-search-btn {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin: 0 !important;
+    }
+
+    .fnd-info-container {
+        width: 100%;
+        height: 15%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #fnd-info-btn {
+        color: #25234e !important;
+    }
+
+    #fnd-info-btn:hover {
+        color: #464e8b !important;
+    }
+
+    .sa-choose-algo {
+        border-radius: 50%;
+        font-size: 8em;
+        background: linear-gradient(to top right, #1e9adf, #a6c);
+    }
+
+    .sa-choose-algo:hover {
+        background: linear-gradient(to bottom right, #1a1a1a, #525252);
+    }
+
+    .fnd-search-search-2 {
+        height: 5em;
+        font-size: 1em;
+        font-weight: 700;
+    }
+
+    .section-work {
+        width: 100%;
+        height: 100%;
+    }
+
+    .section-summary {
+        display: inline-flex;
+        width: 100%;
+        height: 100%;
+    }
+
+    .summary-img-container {
+        width: 100%;
+        height: 100%;
+        padding: 5em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .summary-icon {
+        border-radius: 50%;
+        background-color: #1a1a1a;
+        width: 60%;
+        height: 60%;
+        border: 2px solid #fbf8fc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .summary-icon-content {
+        color: #fbf8fc;
+        font-size: 7.6em;
+        font-weight: 900;
+    }
+
+    .summary-description {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .description-container {
+        display: block;
+        text-align: center;
+        width: 100%;
+        height: 80%;
+    }
+
+    .section-footer {
+        width: 100%;
+        height: 15%;
+        background-color: #6f6f6f;
+    }
+
+    .fnd-container {
+        padding: 1em;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .fnd-container > .row {
+        width: 80%;
+        height: 100%;
+    }
+
+    .fnd-container > .row > .col {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+</style>
+{% endblock %}
+
+{% block javascripts %}
+<script src="/js/sorting_arrays.js"></script>
+
+<script>
+    $(document).ready(function () {
+        AOS.init({
+            once: true
+        });
+    });
+</script>
+{% endblock %}

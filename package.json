@@ -1,0 +1,17 @@
+{
+  "name": "sorting_algorithms",
+  "version": "1.0.0",
+  "description": "Web site regrouping some sorting array algorithm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anas Habib ABRAM",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "chart.js": "^2.9.2",
+    "express": "^4.17.1",
+    "twig": "^1.13.3"
+  }
+}

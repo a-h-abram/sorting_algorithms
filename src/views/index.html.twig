@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="" style="width: 100%;height: 100%;">
+<head>
+    <title>{% block title %}ABRAM - Sorting Algorithm{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.4/css/mdb.min.css" rel="stylesheet">
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.4/js/mdb.min.js"></script>
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    {% block head %}
+    {% endblock %}
+</head>
+<body style="background-color: #606060;height: 100%;width: 100%;">
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #454545">
+        <a class="navbar-brand" href="/">ABRAM Sorting Algorithm</a>
+
+        <div class="collapse navbar-collapse" id="navbar-commands">
+            <ul class="navbar-nav mr-auto">
+                <!--<li class="nav-item">
+                    <button class="nav-link btn btn-outline-success" onclick="updateArrayValues()">Générer un nouveau tableau</button>
+                </li>-->
+
+                <li id="sort-1" class="nav-item">
+                    <a class="nav-link" href="#" onclick="changeSortType(1)">Bubble Sort</a>
+                </li>
+
+                <li id="sort-2" class="nav-item">
+                    <a class="nav-link" href="#" onclick="changeSortType(2)">Comb Sort</a>
+                </li>
+
+                <li id="sort-3" class="nav-item">
+                    <a class="nav-link" href="#" onclick="changeSortType(3)">Cocktail Sort</a>
+                </li>
+
+                <li id="sort-4" class="nav-item">
+                    <a class="nav-link" href="#" onclick="changeSortType(4)">OddEven Sort</a>
+                </li>
+
+                <li id="sort-5" class="nav-item">
+                    <a class="nav-link" href="#" onclick="changeSortType(5)">Merge Sort</a>
+                </li>
+
+                <li id="sort-6" class="nav-item">
+                    <a class="nav-link" href="#" onclick="changeSortType(6)">Quick Sort</a>
+                </li>
+
+                <li id="sort-7" class="nav-item">
+                    <a class="nav-link" href="#" onclick="changeSortType(7)">Heap Sort</a>
+                </li>
+
+                <!--<li id="sort-8" class="nav-item">
+                    <a class="nav-link" href="#" onclick="changeSortType(8)">Radix Sort</a>
+                </li>-->
+
+            </ul>
+        </div>
+    </nav>
+</header>
+{% block content %}
+{% endblock %}
+</body>
+
+{% block javascripts %}
+<script type="application/javascript">
+    AOS.init();
+</script>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    #navbar {
+        color: white;
+    }
+</style>
+{% endblock %}
+</html>
