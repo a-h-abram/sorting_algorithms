@@ -18,7 +18,7 @@ including the chart bar). But for each algorithm, I tried to implement the more 
 ## Technical Description
 - Language: Node.js  
 - Framework : Express
-- GI (chart bars) : Homemade (canvas of HTML5)
+- Graphical Interface (chart bars) : Homemade (canvas of HTML5)
 
 #### What will be my next project ?
 

@@ -1,7 +1,3 @@
-$.getScript("./binary_tree.js", () => {
-
-});
-
 /**
  * We setup everything here (methods, ...)
  */
@@ -74,7 +70,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let displayBarGraph = async () => {
+let displayBarGraph = async(sleepTime = null) => {
     clearBarGraph();
 
     let barWidth = canvas.width / array.length - 5;
@@ -91,8 +87,10 @@ let displayBarGraph = async () => {
         } else {
             offset += barWidth + 2;
         }
+    }
 
-        //await sleep(2);
+    if (sleepTime) {
+        await sleep(sleepTime);
     }
 };
 
@@ -100,7 +98,7 @@ function clearBarGraph() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-let parsingShowIndexGraph = async (index, color) => {
+let parsingShowIndexGraph = async(index, color) => {
     let indexOffset = 2;
     let height = array[index];
     let barWidth = canvas.width / array.length - 5;
@@ -111,13 +109,15 @@ let parsingShowIndexGraph = async (index, color) => {
     ctx.fillStyle = "#454545";
     ctx.fillRect(indexOffset, canvas.height - height, barWidth, height);
 
-    await sleep(5);
-
     ctx.fillStyle = color;
     ctx.fillRect(indexOffset, canvas.height - height, barWidth, height);
 };
 
 function generateNewArray() {
+    if (isSorting) {
+        return;
+    }
+
     array = []; // reset array
     graphArray = [];
 
@@ -194,9 +194,7 @@ let finalCheckEveryBar = async () => {
 
     graphArray[array.length] = sortState.CHECKED;
 
-    await displayBarGraph();
-
-    await sleep(500);
+    await displayBarGraph(500);
 
     for (let i = 0; i < array.length; i++) {
         graphArray[i] = sortState.UNSELECTED;
@@ -280,12 +278,11 @@ let bubbleSort = async () => {
 
             await displayBarGraph();
 
-            await sleep(3);
+            await sleep(1);
 
             if (array[i] > array[i + 1]) {
                 sorted = false;
                 swap(i, i + 1);
-                swapGraphArray(i, i + 1);
                 graphArray[i] = sortState.SWAP;
                 graphArray[i + 1] = sortState.SWAP;
             }
@@ -293,8 +290,7 @@ let bubbleSort = async () => {
             graphArray[i] = sortState.UNSELECTED;
             graphArray[i + 1] = sortState.UNSELECTED;
 
-            await displayBarGraph();
-            //await sleep(2);
+            await displayBarGraph(1);
         }
     }
 
@@ -329,15 +325,12 @@ let combSort = async () => {
 
             if (array[i] > array[i + interval]) {
                 swap(i, i + interval);
-                swapGraphArray(i, i + interval);
                 graphArray[i] = sortState.SWAP;
                 graphArray[i + interval] = sortState.SWAP;
                 swaped = true;
             }
 
-            await displayBarGraph();
-
-            await sleep(3);
+            await displayBarGraph(1);
 
             graphArray[i] = sortState.UNSELECTED;
             graphArray[i + interval] = sortState.UNSELECTED;
@@ -369,13 +362,11 @@ let cocktailShakerSort = async () => {
             if (array[i] > array[i + 1]) {
                 swaped = true;
                 swap(i, i + 1);
-                swapGraphArray(i, i + 1);
                 graphArray[i] = sortState.SWAP;
                 graphArray[i + 1] = sortState.SWAP;
             }
 
-            await displayBarGraph();
-            await sleep(1);
+            await displayBarGraph(1);
 
             graphArray[i] = sortState.UNSELECTED;
             graphArray[i + 1] = sortState.UNSELECTED;
@@ -390,13 +381,12 @@ let cocktailShakerSort = async () => {
             if (array[i] > array[i + 1]) {
                 swaped = true;
                 swap(i, i + 1);
-                swapGraphArray(i, i + 1);
                 graphArray[i] = sortState.SWAP;
                 graphArray[i + 1] = sortState.SWAP;
             }
 
-            await displayBarGraph();
-            await sleep(1);
+            await displayBarGraph(1);
+
             graphArray[i] = sortState.UNSELECTED;
             graphArray[i + 1] = sortState.UNSELECTED;
         }
@@ -419,22 +409,27 @@ let oddEventSort = async () => {
                 break;
             }
 
-            await parsingShowIndexGraph(i, sortState.SELECTED);
-            await parsingShowIndexGraph(i + 1, sortState.SELECTED);
+            graphArray[i] = sortState.SELECTED;
+            graphArray[i + 1] = sortState.SELECTED;
+            /*await parsingShowIndexGraph(i, sortState.SELECTED);
+            await parsingShowIndexGraph(i + 1, sortState.SELECTED);*/
 
-            await displayBarGraph();
+            await displayBarGraph(1);
 
             if (array[i] > array[i + 1]) {
-                await parsingShowIndexGraph(i, sortState.SWAP);
-                await parsingShowIndexGraph(i + 1, sortState.SWAP);
+                /*await parsingShowIndexGraph(i, sortState.SWAP);
+                await parsingShowIndexGraph(i + 1, sortState.SWAP);*/
+                graphArray[i] = sortState.SWAP;
+                graphArray[i + 1] = sortState.SWAP;
                 swap(i, i + 1);
-                swapGraphArray(i, i + 1);
             }
 
-            await displayBarGraph();
+            await displayBarGraph(1);
 
-            await parsingShowIndexGraph(i, sortState.UNSELECTED);
-            await parsingShowIndexGraph(i + 1, sortState.UNSELECTED);
+            /*await parsingShowIndexGraph(i, sortState.UNSELECTED);
+            await parsingShowIndexGraph(i + 1, sortState.UNSELECTED);*/
+            graphArray[i] = sortState.UNSELECTED;
+            graphArray[i + 1] = sortState.UNSELECTED;
         }
 
         for (let i = 1; i < array.length; i += 2) {
@@ -442,22 +437,27 @@ let oddEventSort = async () => {
                 break;
             }
 
-            await parsingShowIndexGraph(i, sortState.SELECTED);
-            await parsingShowIndexGraph(i + 1, sortState.SELECTED);
+            /*await parsingShowIndexGraph(i, sortState.SELECTED);
+            await parsingShowIndexGraph(i + 1, sortState.SELECTED);*/
+            graphArray[i] = sortState.SELECTED;
+            graphArray[i + 1] = sortState.SELECTED;
 
-            await displayBarGraph();
+            await displayBarGraph(1);
 
             if (array[i] > array[i + 1]) {
-                await parsingShowIndexGraph(i, sortState.SWAP);
-                await parsingShowIndexGraph(i + 1, sortState.SWAP);
+                graphArray[i] = sortState.SWAP;
+                graphArray[i + 1] = sortState.SWAP;
+                /*await parsingShowIndexGraph(i, sortState.SWAP);
+                await parsingShowIndexGraph(i + 1, sortState.SWAP);*/
                 swap(i, i + 1);
-                swapGraphArray(i, i + 1);
             }
 
-            await displayBarGraph();
+            await displayBarGraph(1);
 
-            await parsingShowIndexGraph(i, sortState.UNSELECTED);
-            await parsingShowIndexGraph(i + 1, sortState.UNSELECTED);
+            /*await parsingShowIndexGraph(i, sortState.UNSELECTED);
+            await parsingShowIndexGraph(i + 1, sortState.UNSELECTED);*/
+            graphArray[i] = sortState.UNSELECTED;
+            graphArray[i + 1] = sortState.UNSELECTED;
         }
     }
 
@@ -516,8 +516,8 @@ let merge = async(first, middle, last) => {
         }
 
         //await parsingShowIndexGraph(k - 1, sortState.SELECTED);
-        await displayBarGraph();
-        await sleep(1);
+        await displayBarGraph(1);
+
         graphArray[k - 1] = sortState.UNSELECTED;
         //await parsingShowIndexGraph(k - 1, sortState.UNSELECTED);
     }
@@ -526,8 +526,8 @@ let merge = async(first, middle, last) => {
         array[k++] = firstArray[i++];
         graphArray[k - 1] = sortState.SELECTED;
 
-        await displayBarGraph();
-        await sleep(1);
+        await displayBarGraph(1);
+
         graphArray[k - 1] = sortState.UNSELECTED;
     }
 
@@ -535,8 +535,8 @@ let merge = async(first, middle, last) => {
         array[k++] = lastArray[j++];
         graphArray[k - 1] = sortState.SELECTED;
 
-        await displayBarGraph();
-        await sleep(1);
+        await displayBarGraph(1);
+
         graphArray[k - 1] = sortState.UNSELECTED;
     }
 };
@@ -572,12 +572,11 @@ let quickPartition = async (first, last) => {
             smallerIndex++;
 
             swap(smallerIndex, i);
-            swapGraphArray(smallerIndex, i);
 
             await parsingShowIndexGraph(smallerIndex, sortState.SWAP);
         }
 
-        await displayBarGraph();
+        await displayBarGraph(1);
         await parsingShowIndexGraph(i, sortState.UNSELECTED);
         await parsingShowIndexGraph(smallerIndex, sortState.UNSELECTED);
     }
@@ -585,10 +584,9 @@ let quickPartition = async (first, last) => {
     await parsingShowIndexGraph(smallerIndex + 1, sortState.SELECTED);
     await parsingShowIndexGraph(last, sortState.SWAP);
 
-    await displayBarGraph();
+    await displayBarGraph(1);
 
     swap(smallerIndex + 1, last);
-    swapGraphArray(smallerIndex + 1, last);
 
     await parsingShowIndexGraph(smallerIndex + 1, sortState.UNSELECTED);
     await parsingShowIndexGraph(last, sortState.UNSELECTED);
@@ -603,15 +601,13 @@ let heapSort = async () => {
         await parsingShowIndexGraph(0, sortState.SELECTED);
         await parsingShowIndexGraph(i, sortState.SELECTED);
 
-        await displayBarGraph();
-        await sleep(1);
+        await displayBarGraph(1);
 
         await parsingShowIndexGraph(i, sortState.SWAP);
 
         swap(0, i);
-        swapGraphArray(0, i);
 
-        await displayBarGraph();
+        await displayBarGraph(1);
 
         await parsingShowIndexGraph(0, sortState.UNSELECTED);
         await parsingShowIndexGraph(i, sortState.UNSELECTED);
@@ -646,15 +642,13 @@ let heapify = async (index) => {
         await parsingShowIndexGraph(index, sortState.SELECTED);
         await parsingShowIndexGraph(min, sortState.SELECTED);
 
-        await displayBarGraph();
-        await sleep(1);
+        await displayBarGraph(1);
 
         await parsingShowIndexGraph(min, sortState.SWAP);
 
         swap(index, min);
-        swapGraphArray(index, min);
 
-        await displayBarGraph();
+        await displayBarGraph(1);
 
         await parsingShowIndexGraph(index, sortState.UNSELECTED);
         await parsingShowIndexGraph(min, sortState.UNSELECTED);
@@ -697,7 +691,7 @@ let radixSort = async () => {
         }
     }
 
-    await displayBarGraph();
+    await displayBarGraph(1);
     await finalCheckEveryBar();
 };
 
@@ -719,6 +713,8 @@ function swap(i1, i2) {
 
     array[i2] = array[i1];
     array[i1] = tmp;
+
+    swapGraphArray(i1, i2);
 }
 
 // i1 moves to i2 place
